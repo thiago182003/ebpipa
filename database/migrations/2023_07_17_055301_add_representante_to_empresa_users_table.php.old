@@ -1,0 +1,95 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('empresa_users', function (Blueprint $table) {
+            $table->string('nome_representante');
+            $table->string('telefone_representante');
+
+            $table->string('doc_representante');
+            $table->string('doc_representante_status');
+            $table->string('doc_representante_obs');
+
+            $table->string('doc_emp_tdm');
+            $table->string('doc_emp_tdm_status');
+            $table->string('doc_emp_tdm_obs');
+
+            $table->string('doc_emp_ccmei');
+            $table->string('doc_emp_ccmei_status');
+            $table->string('doc_emp_ccmei_obs');
+
+            $table->string('doc_emp_cicnpj');
+            $table->string('doc_emp_cicnpj_status');
+            $table->string('doc_emp_cicnpj_obs');
+
+            $table->string('doc_emp_ciccem');
+            $table->string('doc_emp_ciccem_status');
+            $table->string('doc_emp_ciccem_obs');
+
+            $table->string('doc_emp_crrcss');
+            $table->string('doc_emp_crrcss_status');
+            $table->string('doc_emp_crrcss_obs');
+
+            $table->string('doc_emp_crrc');
+            $table->string('doc_emp_crrc_status');
+            $table->string('doc_emp_crrc_obs');
+
+            $table->string('doc_emp_cidijt');
+            $table->string('doc_emp_cidijt_status');
+            $table->string('doc_emp_cidijt_obs');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('empresa_users', function (Blueprint $table) {
+            //
+            $table->dropColumn('nome_representante');
+            $table->dropColumn('telefone_representante');
+
+            $table->dropColumn('doc_representante');
+            $table->dropColumn('doc_representante_status');
+            $table->dropColumn('doc_representante_obs');
+
+            $table->dropColumn('doc_emp_tdm');
+            $table->dropColumn('doc_emp_tdm_status');
+            $table->dropColumn('doc_emp_tdm_obs');
+
+            $table->dropColumn('doc_emp_ccmei');
+            $table->dropColumn('doc_emp_ccmei_status');
+            $table->dropColumn('doc_emp_ccmei_obs');
+
+            $table->dropColumn('doc_emp_cicnpj');
+            $table->dropColumn('doc_emp_cicnpj_status');
+            $table->dropColumn('doc_emp_cicnpj_obs');
+
+            $table->dropColumn('doc_emp_ciccem');
+            $table->dropColumn('doc_emp_ciccem_status');
+            $table->dropColumn('doc_emp_ciccem_obs');
+
+            $table->dropColumn('doc_emp_crrcss');
+            $table->dropColumn('doc_emp_crrcss_status');
+            $table->dropColumn('doc_emp_crrcss_obs');
+
+            $table->dropColumn('doc_emp_crrc');
+            $table->dropColumn('doc_emp_crrc_status');
+            $table->dropColumn('doc_emp_crrc_obs');
+
+            $table->dropColumn('doc_emp_cidijt');
+            $table->dropColumn('doc_emp_cidijt_status');
+            $table->dropColumn('doc_emp_cidijt_obs');
+        });
+    }
+};

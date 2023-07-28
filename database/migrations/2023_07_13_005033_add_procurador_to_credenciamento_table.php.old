@@ -1,0 +1,74 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('credenciamentos', function (Blueprint $table) {
+            $table->string('procurador')->nullable();
+            $table->string('doc_procurador')->nullable();
+            $table->string('doc_procurador_status')->nullable();
+            $table->string('doc_procurador_obs')->nullable();
+
+            $table->string('doc_tdm')->nullable();
+            $table->string('doc_tdm_status')->nullable();
+            $table->string('doc_tdm_obs')->nullable();
+
+            $table->string('doc_iem')->nullable();
+            $table->string('doc_iem_status')->nullable();
+            $table->string('doc_iem_obs')->nullable();
+
+            $table->string('doc_crfgts')->nullable();
+            $table->string('doc_crfgts_status')->nullable();
+            $table->string('doc_crfgts_obs')->nullable();
+
+            $table->string('doc_alf')->nullable();
+            $table->string('doc_alf_status')->nullable();
+            $table->string('doc_alf_obs')->nullable();
+
+            $table->string('doc_crfgts')->nullable();
+            $table->string('doc_crfgts_status')->nullable();
+            $table->string('doc_crfgts_obs')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('credenciamentos', function (Blueprint $table) {
+            $table->dropColumn('procurador')->nullable();
+            $table->dropColumn('doc_procurador')->nullable();
+            $table->dropColumn('doc_procurador_status')->nullable();
+            $table->dropColumn('doc_procurador_obs')->nullable();
+
+            $table->dropColumn('doc_tdm')->nullable();
+            $table->dropColumn('doc_tdm_status')->nullable();
+            $table->dropColumn('doc_tdm_obs')->nullable();
+
+            $table->dropColumn('doc_iem')->nullable();
+            $table->dropColumn('doc_iem_status')->nullable();
+            $table->dropColumn('doc_iem_obs')->nullable();
+
+            $table->dropColumn('doc_crfgts')->nullable();
+            $table->dropColumn('doc_crfgts_status')->nullable();
+            $table->dropColumn('doc_crfgts_obs')->nullable();
+
+            $table->dropColumn('doc_alf')->nullable();
+            $table->dropColumn('doc_alf_status')->nullable();
+            $table->dropColumn('doc_alf_obs')->nullable();
+
+            $table->dropColumn('doc_crfgts')->nullable();
+            $table->dropColumn('doc_crfgts_status')->nullable();
+            $table->dropColumn('doc_crfgts_obs')->nullable();
+        });
+    }
+};

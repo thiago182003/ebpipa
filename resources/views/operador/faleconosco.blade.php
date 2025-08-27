@@ -27,7 +27,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($faleconosco as $fale)
+                                                @foreach (@$faleconosco as $fale)
                                                     <tr>
                                                         {{-- {{ dd($cred) }} --}}
                                                         <td>{{ $fale->nome }}</td>

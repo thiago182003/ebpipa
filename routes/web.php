@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OperadorUserController;
 use App\Http\Controllers\PipeiroUserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('portal');
-});
+})->name('portal');
+
+Route::get('/atendimento-cliente', function () {
+    return view('formsclientes');
+})->name('portal.formsclientes');
+
+Route::post('/enviar-contato', function () {
+    // Aqui você pode implementar a lógica para processar o formulário
+    // Por enquanto, vamos apenas redirecionar de volta com uma mensagem de sucesso
+    return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
+})->name('portal.enviar-contato');
 
 Route::get('/home', function () {
     return view('layouts.default');
@@ -34,6 +45,7 @@ Route::prefix('op')->middleware('operador')->group(function () {
     Route::get('empresas', [OperadorUserController::class, 'empresas'])->name('operador.empresas');
     Route::get('pendentes', [OperadorUserController::class, 'pendentes'])->name('operador.pendentes');
     Route::get('cred/{id}', [OperadorUserController::class, 'cred'])->name('operador.cred');
+    // Route::get('credemp/{id}', [OperadorUserController::class, 'cred'])->name('operador.credemp');
     Route::get('aprovar/{id}', [OperadorUserController::class, 'aprovar'])->name('operador.aprovar');
     Route::get('cadastro', [OperadorUserController::class, 'cadastro'])->name('operador.cadastro');
     Route::post('cadastrar', [OperadorUserController::class, 'cadastrar'])->name('operador.cadastrar');
@@ -71,7 +83,46 @@ Route::prefix('pipeiro')->middleware('pipeiro')->group(function () {
 Route::post('logar', [LoginController::class, 'logar'])->name('login.logar');
 Route::get('op', [OperadorUserController::class, 'login'])->name('operador.login');
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
+
+// Rota para criação segura de redirects para páginas internas permitidas
+Route::get('login/redirect/{key}', function ($key, \Illuminate\Http\Request $request) {
+    // Mapa de chaves permitidas -> URLs internas
+    $map = [
+        'atendimento' => route('portal.formsclientes'),
+    ];
+
+    if (!array_key_exists($key, $map)) {
+        abort(404);
+    }
+
+    // Armazena URL de redirect segura na sessão e redireciona para a tela de login
+    $request->session()->put('login_redirect', $map[$key]);
+    return redirect()->route('login.login');
+})->name('login.redirect');
 Route::post('cadastrar', [LoginController::class, 'cadastrar'])->name('login.cadastrar');
 Route::get('cadastro', [LoginController::class, 'cadastro'])->name('login.cadastro');
 Route::get('faleconosco', [FaleConoscoController::class, 'pagina'])->name('faleconosco.fale');
 Route::post('enviarmensagem', [FaleConoscoController::class, 'enviar'])->name('faleconosco.enviar');
+
+// Rotas para Atendimento ao Cliente
+Route::get('atendimento-cliente', function () {
+    return view('formsclientes');
+})->name('portal.formsclientes');
+
+Route::post('salvar-atendimento', function (Illuminate\Http\Request $request) {
+    $atendimento = new App\Models\Atendimento();
+    
+    $atendimento->usuario_autenticado = $request->usuario_autenticado === 'sim';
+    $atendimento->user_type = $request->user_type;
+    $atendimento->user_id = $request->user_id;
+    $atendimento->user_name = $request->user_name;
+    $atendimento->tipo_requerente = $request->tipo_requerente;
+    $atendimento->outro_especificar = $request->outro_especificar;
+    $atendimento->estado = $request->estado;
+    $atendimento->municipio = $request->municipio;
+    $atendimento->relato = $request->relato;
+    
+    $atendimento->save();
+    
+    return redirect()->route('portal.formsclientes')->with('success', 'Sua solicitação foi enviada com sucesso! Em breve entraremos em contato.');
+})->name('portal.salvar-atendimento');

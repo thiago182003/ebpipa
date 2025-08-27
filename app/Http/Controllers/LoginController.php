@@ -27,6 +27,9 @@ class LoginController extends Controller
 
     public function logar(Request $request)
     {
+    // Captura redirect seguro armazenado na sessão (se houver) e remove da sessão
+    $redirect = $request->session()->pull('login_redirect');
+
         $tipo = $request->radio_pessoa;
         if ($tipo == "fisica") {
             $request->validate([
@@ -46,9 +49,21 @@ class LoginController extends Controller
 
             $log = Auth::guard('pipeiro')->attempt($credentials, false);
             if ($log) {
-
                 $request->session()->regenerate();
+                if ($redirect) {
+                    return redirect($redirect);
+                }
                 return redirect()->route('pipeiro.dashboard');
+            }
+
+            // Tentar login como operador se não conseguiu como pipeiro
+            $logOperador = Auth::guard('operador')->attempt($credentials, false);
+            if ($logOperador) {
+                $request->session()->regenerate();
+                if ($redirect) {
+                    return redirect($redirect);
+                }
+                return redirect()->route('operador.dashboard');
             }
 
             return back()->withErrors([
@@ -74,6 +89,9 @@ class LoginController extends Controller
             $log = Auth::guard('empresa')->attempt($credentials, false);
             if ($log) {
                 $request->session()->regenerate();
+                if ($redirect) {
+                    return redirect($redirect);
+                }
                 return redirect()->route('empresa.dashboard');
             }
 
@@ -130,7 +148,7 @@ class LoginController extends Controller
         if ($tipo == "fisica") {
             $request->validate([
                 'cpf' => ['required', 'unique:pipeiro_users'],
-                'email' => ['required', 'unique:pipeiro_users'],
+                'email' => ['required'],
                 'nome' => ['required'],
                 'password' => ['required']
             ]);
@@ -153,7 +171,7 @@ class LoginController extends Controller
         } else {
             $request->validate([
                 'cnpj' => ['required', 'unique:empresa_users'],
-                'email' => ['required', 'unique:empresa_users'],
+                'email' => ['required'],
                 'razaosocial' => ['required'],
                 'password' => ['required']
             ]);

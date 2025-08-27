@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ebpipa</title>
+    <title>EBPIPA</title>
 
     <meta name="description" content="Sistema de Gerenciamento para Operação Carro Pipa" />
 
@@ -42,7 +42,7 @@
         <nav class="navbar navbar-expand-lg navbar-light mt-3">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><span
-                        class="app-brand-text demo menu-text fw-bolder ms-2">Ebpipa</span></a>
+                        class="app-brand-text demo menu-text fw-bolder ms-2">EBPIPA</span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,16 @@
                         </li>
                         <li class="nav-item">
                             <a type="button" class="btn rounded-pill btn-pipa"
-                                href="{{ route('login.login') }}">Entrar</a>
+                                href="{{ route('portal.formsclientes') }}">Atendimento ao Cliente</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle btn rounded-pill btn-pipa text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Entrar
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('login.login') }}">Pipeiro / Empresa</a></li>
+                                <li><a class="dropdown-item" href="{{ route('operador.login') }}">Operador</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a type="button" class="btn rounded-pill btn-pipa"

@@ -67,6 +67,8 @@
                         <form id="formAuthentication" class="mb-3" action="{{ route('login.logar') }}"
                             method="post">
                             @csrf
+                            {{-- Preserve redirect query param when coming from formsclientes --}}
+                            <input type="hidden" name="redirect" value="{{ request()->query('redirect') }}">
                             @if (old('cnpj'))
                                 <div class="form-check form-check-inline mb-3">
                                     <input name="radio_pessoa" class="form-check-input" type="radio" value="fisica"

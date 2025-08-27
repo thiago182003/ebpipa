@@ -105,7 +105,7 @@ class OperadorUserController extends Controller
     public function credenciamentos()
     {
 
-        $creds = credenciamento::where('status', '!=', "99")->where("id_pipeiro", '!=', null)->get();
+        $creds = credenciamento::where('status', '!=', "99")->whereNotNull("id_pipeiro")->whereNull('id_empresa')->get();
 
         foreach ($creds as $cred) {
             $cred->pipeiro = Pipeiro_user::find($cred->id_pipeiro);
@@ -151,77 +151,88 @@ class OperadorUserController extends Controller
     {
 
         $credenciamento = credenciamento::find($cred);
-        // dd($credenciamento);
-        $veiculo = veiculo::find($credenciamento->id_veiculo);
-        $pipeiro = Pipeiro_user::find($credenciamento->id_pipeiro);
-        $edital = Edital::find($credenciamento->id_edital);
-        $dadosbancarios = dadosbancarios::where('id_pipeiro', '=', $pipeiro->id)->first();
-        $estado = Estado::find($credenciamento->id_estado);
-        $municipio = Municipio::find($credenciamento->id_municipio);
-        $endereco = endereco::where("id_pipeiro", "=", $pipeiro->id)->first();
 
-        // dd($endereco);
-        switch ($pipeiro->escolaridade) {
-            case "1":
-                $pipeiro->escolaridade = "Ensino Fundamental";
-                break;
-            case "2":
-                $pipeiro->escolaridade = "Ensino Fundamental Incomleto";
-                break;
-            case "3":
-                $pipeiro->escolaridade = "Ensino Médio";
-                break;
-            case "4":
-                $pipeiro->escolaridade = "Ensino Médio Incompleto";
-                break;
-            case "5":
-                $pipeiro->escolaridade = "Ensino Superior";
-                break;
-            case "6":
-                $pipeiro->escolaridade = "Ensino Superior Incompleto";
-                break;
-            case "7":
-                $pipeiro->escolaridade = "Outro";
-                break;
-        }
-        switch ($pipeiro->estadocivil) {
-            case "1":
-                $pipeiro->estadocivil = "Solteiro";
-                break;
-            case "2":
-                $pipeiro->estadocivil = "Casado";
-                break;
-            case "3":
-                $pipeiro->estadocivil = "União Estável";
-                break;
-            case "":
-                $pipeiro->estadocivil =  "Outro";
-                break;
-        }
-        switch ($pipeiro->raca) {
-            case "1":
-                $pipeiro->raca = "Amarelo";
-                break;
-            case "2":
-                $pipeiro->raca = "Branco";
-                break;
-            case "3":
-                $pipeiro->raca = "Indio";
-                break;
-            case "4":
-                $pipeiro->raca = "Pardo";
-                break;
-            case "5":
-                $pipeiro->raca = "Negro";
-                break;
-            case "6":
-                $pipeiro->raca = "Outros";
-                break;
-        }
+        if (is_null($credenciamento->id_empresa)) {
+            $veiculo = veiculo::find($credenciamento->id_veiculo);
+            $pipeiro = Pipeiro_user::find($credenciamento->id_pipeiro);
+            $edital = Edital::find($credenciamento->id_edital);
+            $dadosbancarios = dadosbancarios::where('id_pipeiro', '=', $pipeiro->id)->first();
+            $estado = Estado::find($credenciamento->id_estado);
+            $municipio = Municipio::find($credenciamento->id_municipio);
+            $endereco = endereco::where("id_pipeiro", "=", $pipeiro->id)->first();
 
-        // dd($credenciamento);
-
-        return view("operador.cred", compact('credenciamento', 'veiculo', 'pipeiro', 'edital', 'dadosbancarios', 'estado', 'municipio', 'endereco'));
+            // dd($endereco);
+            switch ($pipeiro->escolaridade) {
+                case "1":
+                    $pipeiro->escolaridade = "Ensino Fundamental";
+                    break;
+                case "2":
+                    $pipeiro->escolaridade = "Ensino Fundamental Incomleto";
+                    break;
+                case "3":
+                    $pipeiro->escolaridade = "Ensino Médio";
+                    break;
+                case "4":
+                    $pipeiro->escolaridade = "Ensino Médio Incompleto";
+                    break;
+                case "5":
+                    $pipeiro->escolaridade = "Ensino Superior";
+                    break;
+                case "6":
+                    $pipeiro->escolaridade = "Ensino Superior Incompleto";
+                    break;
+                case "7":
+                    $pipeiro->escolaridade = "Outro";
+                    break;
+            }
+            switch ($pipeiro->estadocivil) {
+                case "1":
+                    $pipeiro->estadocivil = "Solteiro";
+                    break;
+                case "2":
+                    $pipeiro->estadocivil = "Casado";
+                    break;
+                case "3":
+                    $pipeiro->estadocivil = "União Estável";
+                    break;
+                case "":
+                    $pipeiro->estadocivil =  "Outro";
+                    break;
+            }
+            switch ($pipeiro->raca) {
+                case "1":
+                    $pipeiro->raca = "Amarelo";
+                    break;
+                case "2":
+                    $pipeiro->raca = "Branco";
+                    break;
+                case "3":
+                    $pipeiro->raca = "Indio";
+                    break;
+                case "4":
+                    $pipeiro->raca = "Pardo";
+                    break;
+                case "5":
+                    $pipeiro->raca = "Negro";
+                    break;
+                case "6":
+                    $pipeiro->raca = "Outros";
+                    break;
+            }
+            // dd($credenciamento);
+            return view("operador.cred", compact('credenciamento', 'veiculo', 'pipeiro', 'edital', 'dadosbancarios', 'estado', 'municipio', 'endereco'));
+        } else {
+            // dd("aqyu");
+            $veiculo = veiculo::find($credenciamento->id_veiculo);
+            $empresa = Empresa_user::find($credenciamento->id_empresa);
+            $edital = Edital::find($credenciamento->id_edital);
+            $dadosbancarios = dadosbancarios::where('id_empresa', $empresa->id)->first();
+            $estado = Estado::find($credenciamento->id_estado);
+            $municipio = Municipio::find($credenciamento->id_municipio);
+            $endereco = endereco::where("id_empresa", $empresa->id)->first();
+            // dd($credenciamento, $edital, $estado);
+            return view("operador.credemp", compact('credenciamento', 'veiculo', 'empresa', 'edital', 'dadosbancarios', 'estado', 'municipio', 'endereco'));
+        }
     }
 
     public function aprovar($cred)

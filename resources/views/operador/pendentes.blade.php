@@ -22,8 +22,8 @@
                                                     <th class="col-1">Inscrição</th>
                                                     <th class="col-2">CPF/CNPJ</th>
                                                     <th>Nome</th>
-                                                    <th class="col-1">Analisar</th>
-                                                    <th class="col-1">Aprovar</th>
+                                                    <th class="col-1">Ver</th>
+                                                    {{-- <th class="col-1">Aprovar</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -45,12 +45,12 @@
                                                                 <span class="tf-icons bx bx-edit"></span>
                                                             </a>
                                                         </td>
-                                                        <td>
+                                                        {{-- <td>
                                                             <a href="{{ route('operador.aprovar', @$cred->id) }}"
                                                                 class="btn btn-sm btn-icon btn-outline-success">
                                                                 <span class="tf-icons bx bx-check"></span>
                                                             </a>
-                                                        </td>
+                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>

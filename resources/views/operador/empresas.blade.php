@@ -29,8 +29,8 @@
                                                 @foreach ($creds as $cred)
                                                     @if ($cred->status == 3)
                                                         <tr>
-                                                            <td>{{ @$cred->pipeiro->id }}</td>
-                                                            <td>{{ @$cred->pipeiro->nome }}</td>
+                                                            <td>{{ @$cred->empresa->id }}</td>
+                                                            <td>{{ @$cred->empresa->razaosocial }}</td>
                                                             <td>
                                                                 <a href="{{ route('operador.cred', @$cred->id) }}"
                                                                     class="btn btn-sm btn-icon btn-outline-primary">

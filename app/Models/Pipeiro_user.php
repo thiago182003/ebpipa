@@ -46,4 +46,14 @@ class Pipeiro_user extends Authenticatable
         'remember_token',
         'id'
     ];
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'cpf';
+    }
 }

@@ -56,7 +56,7 @@
                         </li>
                         <li class="nav-item">
                             <a type="button" class="btn rounded-pill btn-pipa"
-                                href="{{ route('portal.formsclientes') }}">Atendimento ao Cliente</a>
+                                href="{{ route('portal.formsclientes') }}">Ouvidoria</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle btn rounded-pill btn-pipa text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

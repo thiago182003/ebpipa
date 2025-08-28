@@ -23,7 +23,7 @@ class Municipio extends Model
 
     public function estado()
     {
-        return $this->BelongsTo(Estado::class);
+    return $this->BelongsTo(Estado::class, 'id_estado');
     }
 
     public function om()

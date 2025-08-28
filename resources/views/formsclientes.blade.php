@@ -115,9 +115,9 @@
     
                         <!-- Etapa 3: Para usuário não identificado -->
                         <div id="step3" class="step-content" style="display: none;">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormulario">
-                                Iniciar Atendimento
-                            </button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTipoRequerente">
+                                    Iniciar Atendimento
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -167,6 +167,38 @@
         </div>
     </div>
 
+    <!-- Modal de Identificação (para usuários não logados que desejam se identificar) -->
+    <div class="modal fade" id="modalIdentificacaoAnonimo" tabindex="-1" aria-labelledby="modalIdentificacaoAnonimoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalIdentificacaoAnonimoLabel">Identificação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Informe seus dados para verificação. Se o CPF existir na base de pipeiros, o sistema preencherá seus dados automaticamente.</p>
+                    <div class="mb-3">
+                        <label class="form-label">CPF *</label>
+                        <input type="text" class="form-control" id="id_cpf" placeholder="000.000.000-00">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail *</label>
+                        <input type="email" class="form-control" id="id_email" placeholder="seu@exemplo.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nome Completo *</label>
+                        <input type="text" class="form-control" id="id_nome" placeholder="Nome Completo">
+                    </div>
+                    <div id="identificacao_feedback" class="text-danger" style="display:none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnVerificarCpf">Verificar e Prosseguir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Principal do Formulário -->
     <div class="modal fade" id="modalFormulario" tabindex="-1" aria-labelledby="modalFormularioLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -175,7 +207,7 @@
                     <h5 class="modal-title" id="modalFormularioLabel">Formulário de Atendimento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formAtendimento" method="POST" action="{{ route('portal.salvar-atendimento') }}">
+                <form id="formAtendimento" method="POST" action="{{ route('portal.salvar-atendimento') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="alert alert-info">
@@ -196,11 +228,11 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="estado" class="form-label">Estado *</label>
-                                    <select class="form-select" id="estado" name="estado" required>
-                                        <option value="">Selecione o Estado</option>
-                                        <option value="AL">Alagoas</option>
-                                        <option value="PE">Pernambuco</option>
-                                    </select>
+                                            <select class="form-select" id="estado" name="estado" required>
+                                                <option value="">Selecione o Estado</option>
+                                                <option value="AL">Alagoas</option>
+                                                <option value="PE">Pernambuco</option>
+                                            </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -217,6 +249,14 @@
                             <label for="relato" class="form-label">Relato da Ocorrência *</label>
                             <textarea class="form-control" id="relato" name="relato" rows="8" required 
                                 placeholder="Descreva detalhadamente os fatos, incluindo data, horário, localização e circunstâncias..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="anexos" class="form-label">Anexos (opcional) - JPEG, PNG ou PDF (até 5MB por arquivo)</label>
+                            <input type="file" class="form-control" id="anexos" name="anexos[]" accept="image/jpeg,image/png,application/pdf" multiple>
+                            @if($errors->has('anexos.*'))
+                                <div class="text-danger mt-1">{{ $errors->first('anexos.*') }}</div>
+                            @endif
                         </div>
 
                         <!-- Campos ocultos para dados do usuário -->
@@ -264,18 +304,20 @@
             // Ação do botão continuar na etapa 1
             $('#btnContinuar').click(function() {
                 var opcaoSelecionada = $('input[name="identificar"]:checked').val();
-                
+
                 $('#step1').hide();
-                
+
         if (opcaoSelecionada === 'sim') {
                     // Verificar se o usuário está autenticado
                     @if(auth()->guard('pipeiro')->check() || auth()->guard('empresa')->check() || auth()->guard('operador')->check())
-                        $('#step2').show();
+                        // Usuário autenticado: abrir diretamente o modal principal do formulário
+                        $('#modalFormulario').modal('show');
                     @else
-            // Redirecionar de forma segura para login, registrando redirect na sessão
-            window.location.href = '{{ route("login.redirect", ["key" => "atendimento"]) }}';
+                        // Usuário não autenticado: abrir modal de identificação antes do formulário
+                        $('#modalIdentificacaoAnonimo').modal('show');
                     @endif
                 } else {
+                    // Usuário não deseja se identificar: seguir para seleção de tipo de requerente
                     $('#step3').show();
                 }
             });
@@ -311,34 +353,101 @@
                 $('#modalFormulario').modal('show');
             });
 
-            // Dados dos municípios
-            var municipios = {
-                'AL': [
-                    'Arapiraca', 'Maceió', 'Palmeira dos Índios', 'Rio Largo', 'Santana do Ipanema',
-                    'São Miguel dos Campos', 'União dos Palmares', 'Penedo', 'Coruripe', 'Delmiro Gouveia'
-                ],
-                'PE': [
-                    'Recife', 'Jaboatão dos Guararapes', 'Olinda', 'Caruaru', 'Petrolina',
-                    'Paulista', 'Cabo de Santo Agostinho', 'Camaragibe', 'Garanhuns', 'Vitória de Santo Antão'
-                ]
-            };
+            // Ação do botão de verificar CPF no modal de identificação
+            $('#btnVerificarCpf').click(function() {
+                var cpfRaw = $('#id_cpf').val();
+                var cpf = cpfRaw.replace(/\D/g, '');
+                var email = $('#id_email').val().trim();
+                var nome = $('#id_nome').val().trim();
 
-            // Carregar municípios quando estado for selecionado
-            $('#estado').change(function() {
-                var estadoSelecionado = $(this).val();
-                var municipioSelect = $('#municipio');
-                
-                municipioSelect.empty().append('<option value="">Selecione o Município</option>');
-                
-                if (estadoSelecionado && municipios[estadoSelecionado]) {
-                    municipioSelect.prop('disabled', false);
-                    
-                    municipios[estadoSelecionado].forEach(function(municipio) {
-                        municipioSelect.append('<option value="' + municipio + '">' + municipio + '</option>');
-                    });
-                } else {
-                    municipioSelect.prop('disabled', true);
+                if (!cpf || !email || !nome) {
+                    $('#identificacao_feedback').text('Preencha CPF, e-mail e nome completos.').show();
+                    return;
                 }
+
+                if (cpf.length !== 11) {
+                    $('#identificacao_feedback').text('CPF inválido. Certifique-se de digitar 11 dígitos.').show();
+                    return;
+                }
+
+                $('#identificacao_feedback').hide();
+
+                $.ajax({
+                    url: '{{ route("portal.verificar-cpf") }}',
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        cpf: cpf,
+                        email: email,
+                        nome: nome
+                    },
+                    beforeSend: function() {
+                        $('#btnVerificarCpf').prop('disabled', true).text('Verificando...');
+                    },
+                    success: function(resp) {
+                        // resp.found -> boolean
+                        if (resp && resp.found) {
+                            // Fecha modal de identificação e preenche dados do formulário
+                            $('#modalIdentificacaoAnonimo').modal('hide');
+                            if (resp.user) {
+                                $('#usuario_autenticado').val('sim');
+                                if (!$('#user_type_input').length) {
+                                    $('<input>').attr({type: 'hidden', id: 'user_type_input', name: 'user_type', value: 'pipeiro'}).appendTo('#formAtendimento');
+                                }
+                                if (!$('#user_id_input').length) {
+                                    $('<input>').attr({type: 'hidden', id: 'user_id_input', name: 'user_id', value: resp.user.id}).appendTo('#formAtendimento');
+                                } else { $('#user_id_input').val(resp.user.id); }
+                                if (!$('#user_name_input').length) {
+                                    $('<input>').attr({type: 'hidden', id: 'user_name_input', name: 'user_name', value: resp.user.nome}).appendTo('#formAtendimento');
+                                } else { $('#user_name_input').val(resp.user.nome); }
+                            }
+                            // Se encontrado, pular o modal de tipo de requerente e abrir direto o formulário
+                            $('#modalFormulario').modal('show');
+                        } else {
+                            // CPF não encontrado: seguir com fluxo normal (fechar identificação e abrir modal de tipo de requerente)
+                            $('#modalIdentificacaoAnonimo').modal('hide');
+                            $('#modalTipoRequerente').modal('show');
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#identificacao_feedback').text('Erro ao verificar CPF. Tente novamente.').show();
+                    },
+                    complete: function() {
+                        $('#btnVerificarCpf').prop('disabled', false).text('Verificar e Prosseguir');
+                    }
+                });
+            });
+
+            // Carregar municípios quando estado for selecionado (via AJAX consultando o banco)
+            $('#estado').change(function() {
+                var sigla = $(this).val();
+                var municipioSelect = $('#municipio');
+
+                municipioSelect.empty().append('<option value="">Carregando municípios...</option>');
+
+                if (!sigla) {
+                    municipioSelect.empty().append('<option value="">Selecione primeiro o Estado</option>').prop('disabled', true);
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route("portal.municipios", ["sigla" => "SIG"]) }}'.replace('SIG', sigla),
+                    method: 'GET',
+                    success: function(resp) {
+                        municipioSelect.empty().append('<option value="">Selecione o Município</option>');
+                        if (resp && resp.municipios && resp.municipios.length) {
+                            resp.municipios.forEach(function(m) {
+                                municipioSelect.append('<option value="' + m.nome + '">' + m.nome + '</option>');
+                            });
+                            municipioSelect.prop('disabled', false);
+                        } else {
+                            municipioSelect.empty().append('<option value="">Nenhum município encontrado</option>').prop('disabled', true);
+                        }
+                    },
+                    error: function() {
+                        municipioSelect.empty().append('<option value="">Erro ao carregar municípios</option>').prop('disabled', true);
+                    }
+                });
             });
 
             // Verificar se há parâmetro de redirect na URL

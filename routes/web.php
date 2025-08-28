@@ -110,6 +110,14 @@ Route::get('atendimento-cliente', function () {
 })->name('portal.formsclientes');
 
 Route::post('salvar-atendimento', function (Illuminate\Http\Request $request) {
+    // Validações base
+    $request->validate([
+        'estado' => 'required|string',
+        'municipio' => 'required|string',
+        'relato' => 'required|string',
+        'anexos.*' => 'file|mimes:jpeg,jpg,png,pdf|max:5120' // 5MB por arquivo
+    ]);
+
     $atendimento = new App\Models\Atendimento();
     
     $atendimento->usuario_autenticado = $request->usuario_autenticado === 'sim';
@@ -123,6 +131,63 @@ Route::post('salvar-atendimento', function (Illuminate\Http\Request $request) {
     $atendimento->relato = $request->relato;
     
     $atendimento->save();
-    
+
+    // Processar anexos (opcional)
+    if ($request->hasFile('anexos')) {
+        foreach ($request->file('anexos') as $file) {
+            if (!$file->isValid()) continue;
+
+            // Armazenar de forma segura no disco público (configurar storage:link se necessário)
+            $path = $file->store("atendimentos/{$atendimento->id}", 'public');
+
+            $anexo = new App\Models\AtendimentoAnexo();
+            $anexo->atendimento_id = $atendimento->id;
+            $anexo->path = $path;
+            $anexo->original_name = $file->getClientOriginalName();
+            $anexo->mime = $file->getClientMimeType();
+            $anexo->size = $file->getSize();
+            $anexo->save();
+        }
+    }
+
     return redirect()->route('portal.formsclientes')->with('success', 'Sua solicitação foi enviada com sucesso! Em breve entraremos em contato.');
 })->name('portal.salvar-atendimento');
+
+// Rota AJAX para verificar CPF na tabela pipeiro_users
+Route::post('portal/verificar-cpf', function (Illuminate\Http\Request $request) {
+    $cpf = preg_replace('/\D/', '', $request->input('cpf'));
+
+    if (!$cpf) {
+        return response()->json(['message' => 'CPF inválido.'], 422);
+    }
+
+    if (strlen($cpf) !== 11) {
+        return response()->json(['message' => 'CPF deve conter 11 dígitos.'], 422);
+    }
+
+    // Normaliza o campo cpf na tabela removendo '.', '-' e espaços antes de comparar
+    $user = App\Models\Pipeiro_user::whereRaw("REPLACE(REPLACE(REPLACE(cpf, '.', ''), '-', ''), ' ', '') = ?", [$cpf])->first();
+
+    if ($user) {
+        return response()->json(['found' => true, 'user' => [
+            'id' => $user->id,
+            'nome' => $user->nome,
+            'cpf' => $user->cpf,
+            'email' => $user->email,
+        ]]);
+    }
+
+    return response()->json(['found' => false]);
+})->name('portal.verificar-cpf');
+
+// Rota para retornar municípios por sigla do estado (ex: PE, AL)
+Route::get('portal/municipios/{sigla}', function ($sigla) {
+    $sigla = strtoupper($sigla);
+    $estado = App\Models\Estado::where('sigla', $sigla)->first();
+    if (!$estado) {
+        return response()->json(['municipios' => []]);
+    }
+
+    $municipios = $estado->municipios()->orderBy('nome')->get(['id','nome']);
+    return response()->json(['municipios' => $municipios]);
+})->name('portal.municipios');

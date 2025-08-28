@@ -18,6 +18,6 @@ class Estado extends Model
 
     public function municipios()
     {
-        return $this->hasMany(Municipio::class);
+    return $this->hasMany(Municipio::class, 'id_estado');
     }
 }

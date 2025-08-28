@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('atendimentos', function (Blueprint $table) {
+        if (!Schema::hasTable('atendimentos')) {
+            Schema::create('atendimentos', function (Blueprint $table) {
             $table->id();
             $table->boolean('usuario_autenticado')->default(false);
             $table->string('user_type')->nullable(); // pipeiro, empresa, operador
@@ -26,7 +27,8 @@ return new class extends Migration
             $table->text('resposta')->nullable();
             $table->timestamp('data_resposta')->nullable();
             $table->timestamps();
-        });
+            });
+        }
     }
 
     /**

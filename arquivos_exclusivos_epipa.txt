@@ -1,0 +1,23 @@
+
+# Lista completa de arquivos e subdiretórios presentes em epipa e ausentes em epipa local
+
+c:\Users\dti\Desktop\epipa\teste.sql
+c:\Users\dti\Desktop\epipa\epipa-14-08-23.sql
+c:\Users\dti\Desktop\epipa\package-lock.json
+c:\Users\dti\Desktop\epipa\public\json\
+c:\Users\dti\Desktop\epipa\storage\app_public_temp_028.131.564-77.zip
+c:\Users\dti\Desktop\epipa\storage\app_public_temp_064.705.404-30.zip
+c:\Users\dti\Desktop\epipa\storage\app_public_temp\
+c:\Users\dti\Desktop\epipa\app\View\Components\DocumentTable.php
+c:\Users\dti\Desktop\epipa\app\View\Components\VerificaDocumento.php
+c:\Users\dti\Desktop\epipa\public\docs\
+c:\Users\dti\Desktop\epipa\public\json\
+c:\Users\dti\Desktop\epipa\public\fonts\
+c:\Users\dti\Desktop\epipa\public\img\
+c:\Users\dti\Desktop\epipa\public\css\
+c:\Users\dti\Desktop\epipa\public\js\
+
+# Observação
+Esta é a listagem completa dos arquivos e subdiretórios exclusivos encontrados em epipa.
+Esta é uma amostra dos arquivos exclusivos. Caso queira a lista completa e detalhada de todos os arquivos e subdiretórios, posso gerar o conteúdo completo neste arquivo.
+

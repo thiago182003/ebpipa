@@ -1,0 +1,65 @@
+[
+    {
+        "numero": 1,
+        "nome": "Carteira Nacional de Habilitação (CNH)",
+        "tabela": "pipeiro",
+        "campo": "cnhfrente",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 2,
+        "nome": "Certificado de Registro e Licenciamento Veicular (CRLV)",
+        "tabela": "veiculo",
+        "campo": "doc_crlv",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 3,
+        "nome": "Laudo de aferição de volume do tanque",
+        "tabela": "veiculo",
+        "campo": "doc_lav",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 4,
+        "nome": "Foto do caminhão",
+        "tabela": "veiculo",
+        "campo": "veiculo_img",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 5,
+        "nome": "Requerimento de credenciamento",
+        "tabela": "credenciamento",
+        "campo": "doc_reqcred",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 6,
+        "nome": "Termo de declaração e responsabilidade das condições de trafegabilidade do veículo a ser credenciado",
+        "tabela": "credenciamento",
+        "campo": "doc_drctvc",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 7,
+        "nome": "Registro ou Inscrição junto à Agência Nacional de Transporte Terrestre (ANTT)",
+        "tabela": "credenciamento",
+        "campo": "doc_antt",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 8,
+        "nome": "Laudo da vigilância sanitária",
+        "tabela": "credenciamento",
+        "campo": "doc_lvs",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 9,
+        "nome": "Contrato de locação do veículo",
+        "tabela": "credenciamento",
+        "campo": "doc_cl",
+        "obrigatorio": 0
+    }
+]

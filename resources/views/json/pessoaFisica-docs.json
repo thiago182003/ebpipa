@@ -1,0 +1,170 @@
+[
+    {
+        "endereco":{
+            "numero": 1,
+            "nome": "Comprovante de residência",
+            "tabela": "endereco",
+            "campo": "comprovanteresidencia",
+            "obrigatorio": 1
+        }
+    },
+    {
+        "motorista":{
+            "numero": 2,
+            "nome": "Carteira Nacional de Habilitação (CNH)",
+            "tabela": "pipeiro",
+            "campo": "cnhfrente",
+            "obrigatorio": 1
+        }
+    },
+    {
+        "veiculo" : [
+            {
+                "numero": 3,
+                "nome": "Certificado de Registro e Licenciamento Veicular (CRLV)",
+                "tabela": "veiculo",
+                "campo": "doc_crlv",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 4,
+                "nome": "Laudo de aferição de volume do tanque",
+                "tabela": "veiculo",
+                "campo": "doc_lav",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 5,
+                "nome": "Foto do caminhão",
+                "tabela": "veiculo",
+                "campo": "veiculo_img",
+                "obrigatorio": 1
+            }
+        ]
+    },
+    {
+        "banco": {
+            "numero": 6,
+            "nome": "Comprovante de dados bancários",
+            "tabela": "dadosbancarios",
+            "campo": "doc_comprovante",
+            "obrigatorio": 1
+        }
+    },
+    {
+        "geral":[
+            {
+                "numero": 7,
+                "nome": "Requerimento de credenciamento",
+                "tabela": "credenciamento",
+                "campo": "doc_reqcred",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 8,
+                "nome": "Declaração de conhecimento das informações para cumprimento das obrigações",
+                "tabela": "credenciamento",
+                "campo": "doc_cico",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 9,
+                "nome": "Termo de declaração e responsabilidade das condições de trafegabilidade do veículo a ser credenciado",
+                "tabela": "credenciamento",
+                "campo": "doc_drctvc",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 10,
+                "nome": "Modelo de autorização para exposição de dados",
+                "tabela": "credenciamento",
+                "campo": "doc_maed",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 11,
+                "nome": "Comprovante de Inscrição como Contribuinte Individual da Previdência Social (CNIS)",
+                "tabela": "credenciamento",
+                "campo": "doc_cicips",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 12,
+                "nome": "Certidão de quitação eleitoral",
+                "tabela": "credenciamento",
+                "campo": "doc_cqe",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 13,
+                "nome": "Certidão de quitação com o serviço militar (para o sexo masculino)",
+                "tabela": "credenciamento",
+                "campo": "doc_cqsm",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 14,
+                "nome": "Certificado de Registro no Sistema de Cadastramento Unificado de Fornecedores (SICAF)",
+                "tabela": "credenciamento",
+                "campo": "doc_sicaf",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 15,
+                "nome": "Comprovante de situação cadastral no CPF",
+                "tabela": "credenciamento",
+                "campo": "doc_ciscc",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 16,
+                "nome": "Certidão de regularidade para com a fazenda federal",
+                "tabela": "credenciamento",
+                "campo": "doc_cndf",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 17,
+                "nome": "Certidão de regularidade para com a fazenda estadual",
+                "tabela": "credenciamento",
+                "campo": "doc_cnde",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 18,
+                "nome": "Certidão de regularidade para com a fazenda municipal",
+                "tabela": "credenciamento",
+                "campo": "doc_cndm",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 19,
+                "nome": "Certidão de inexistência de débitos trabalhistas",
+                "tabela": "credenciamento",
+                "campo": "doc_cidt",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 20,
+                "nome": "Registro ou Inscrição junto à Agência Nacional de Transporte Terrestre (ANTT)",
+                "tabela": "credenciamento",
+                "campo": "doc_antt",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 21,
+                "nome": "Laudo da vigilância sanitária",
+                "tabela": "credenciamento",
+                "campo": "doc_lvs",
+                "obrigatorio": 1
+            },
+            {
+                "numero": 22,
+                "nome": "Contrato de locação do veículo",
+                "tabela": "credenciamento",
+                "campo": "doc_cl",
+                "obrigatorio": 0
+            }
+        ]
+    }
+]

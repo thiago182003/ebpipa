@@ -1,0 +1,121 @@
+[
+    {
+        "numero": 1,
+        "nome": "Comprovante de residência",
+        "tabela": "endereco",
+        "campo": "comprovanteresidencia",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 2,
+        "nome": "Comprovante de dados bancários",
+        "tabela": "dadosbancarios",
+        "campo": "doc_comprovante",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 3,
+        "nome": "03. Declaração de conhecimento das informações para cumprimento das obrigações",
+        "tabela": "credenciamento",
+        "campo": "doc_cico",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 4,
+        "nome": "Declaração de trabalho de menor",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_tdm",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 5,
+        "nome": "Modelo de autorização para exposição de dados",
+        "tabela": "credenciamento",
+        "campo": "doc_maed",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 6,
+        "nome": "Documento de constituição da empresa",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_ccmei",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 7,
+        "nome": "Cartão de Inscrição no Cadastro Nacional de Pessoa Juridica - CNPJ",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_cicnpj",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 8,
+        "nome": "Certidão de inscrição no cadastro de contribuintes estadual ou municipal, correspondente a sede do interessado",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_ciccem",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 9,
+        "nome": "Certidão de regularidade para com a fazenda federal",
+        "tabela": "credenciamento",
+        "campo": "doc_cndf",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 10,
+        "nome": "Certidão de regularidade para com a fazenda estadual",
+        "tabela": "credenciamento",
+        "campo": "doc_cnde",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 11,
+        "nome": "Certidão de regularidade para com a fazenda municipal",
+        "tabela": "credenciamento",
+        "campo": "doc_cndm",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 12,
+        "nome": "Certidão de regularidade relativa as contribuições para a seguridade social",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_crrcss",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 13,
+        "nome": "Certidão de regularidade com referência às contribuições para o FGTS",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_crrc",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 14,
+        "nome": "Certidão de inexistência de débitos inadimplidos perante a justiça do trabalho",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_cidijt",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 15,
+        "nome": "Certificado de Registro no Sistema de Cadastramento Unificado de Fornecedores (SICAF)",
+        "tabela": "credenciamento",
+        "campo": "doc_sicaf",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 16,
+        "nome": "Alvará de licença de funcionamento",
+        "tabela": "credenciamento",
+        "campo": "doc_emp_alf",
+        "obrigatorio": 1
+    },
+    {
+        "numero": 17,
+        "nome": "Atestado de capacidade técnica",
+        "tabela": "credenciamento",
+        "campo": "doc_act",
+        "obrigatorio": 1
+    }
+]
